@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:include="include :: header('响应详细')"/>
+</head>
+<body>
+<div class="col-md-12">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">响应HTTP码：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:text="${responseDetail.respStatus}"></p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">自定义响应头：</label>
+        <div class="col-sm-9" th:if="${(not #maps.containsKey(responseDetail, 'respHeader')) || responseDetail.get('respHeader').empty}">
+            <p class="form-control-static">无</p>
+        </div>
+    </div>
+    <th:block th:if="${responseDetail.get('respHeader')!=null && responseDetail.get('respHeader').size() > 0}"  th:each="item : ${responseDetail.get('respHeader')}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+                <p class="form-control-static" th:text="${item.key} + ' => ' + ${item.val}"></p>
+            </div>
+        </div>
+    </th:block>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">响应内容：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:text="${responseDetail.respContent}"></p>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+</body>
+</html>

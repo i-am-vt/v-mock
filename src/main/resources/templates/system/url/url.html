@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('url路径列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <li>
+                            <p>名称：</p>
+                            <input type="text" name="name"/>
+                        </li>
+                        <li>
+                            <p>描述：</p>
+                            <input type="text" name="description"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"
+            >
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+</body>
+</html>
+<script th:inline="javascript">
+
+
+    var prefix = ctx + "system/url";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            uniqueId: "urlId",
+            detailUrl: prefix + "/{id}",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix,
+            exportUrl: prefix + "/export",
+            modalName: "url路径",
+            columns: [{
+                checkbox: true
+            },
+             {
+                    field: 'name',
+                    title: '名称'
+                },
+                {
+                    field: 'url',
+                    title: 'URL路径'
+                },
+
+                {
+                    field: 'description',
+                    title: '描述',
+                    width: '20%'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push(`<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="responseList('${row.urlId}', '${row.name}')"><i class="fa fa-tasks"></i>&nbsp;返回体</a> `);
+                        actions.push(`<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="requestLog('${row.url}')"><i class="fa fa-tasks"></i>&nbsp;日志</a> `);
+                        actions.push(`<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="$.operate.detail('${row.urlId}', null, '80%')"><i class="fa fa-tasks"></i>详情</a> `);
+                        actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.urlId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.urlId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+        };
+        $.table.init(options);
+    });
+
+    /**返回体列表*/
+    function responseList(urlId, name){
+        var options = {
+            title: `<div style="text-align: center;">【${name}】返回体一览</div>`,
+            width: '99%',
+            height: '99%',
+            url: ctx + "system/response?urlId=" + urlId,
+            skin: 'layui-layer-gray',
+            btn: ['关闭'],
+            yes: function (index, layero) {
+                layer.close(index);
+            }
+        };
+        $.modal.openOptions(options);
+    }
+
+    /**日志列表*/
+    function requestLog(url){
+        var options = {
+            title: `<div style="text-align: center;">【${url}】日志一览</div>`,
+            width: '99%',
+            height: '99%',
+            url: ctx + "system/log?from=url&url=" + encodeURIComponent(url),
+            skin: 'layui-layer-gray',
+            btn: ['关闭'],
+            yes: function (index, layero) {
+                layer.close(index);
+            }
+        };
+        $.modal.openOptions(options);
+    }
+
+
+
+
+
+
+</script>

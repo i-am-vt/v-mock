@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-mock</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/animate.min.css" th:href="@{/css/main/animate.min.css}" rel="stylesheet"/>
+    <link href="../static/css/main/style.min.css" th:href="@{/css/main/style.min.css}" rel="stylesheet"/>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>使用导航</h5>
+                </div>
+                <div class="ibox-content">
+                    <h2>
+                        V-Mock<br/>
+                    </h2>
+                    <p>
+                        欢迎您使用V-Mcok，一款轻量级，易部署的接口模拟应用。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row m-b-lg">
+        <div class="col-sm-12">
+            <div class="tabs-container">
+
+                <div class="tabs-left">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-7">概述</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab-8"> 接口一览</a>
+                        </li>
+                        <li class=""><a data-toggle="tab" href="#tab-9"> 接口日志</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content ">
+                        <div id="tab-7" class="tab-pane active">
+                            <div class="panel-body height-400 main-font">
+                                <strong>概述</strong>
+                                <ol>
+                                    <li>欢迎你使用V-Mock，如需其他用户注册，可以去系统参数中修改【邀请码】, 普通用户即可通过邀请码注册系统</li>
+                                    <li>别忘了修改管理员的密码</li>
+                                    <li>登录账号不能修改，可以修改系统中显示的名称</li>
+                                    <li>忘记密码请联系管理员协助【重置密码】，默认为123456</li>
+                                    <li>响应格式可以在【自定义响应头】增加content-type自己指定,
+                                        默认content-type为application/json;charset=utf-8
+                                    </li>
+                                    <li>注意！不要配置矛盾的URL，如：配置了/v1/test/{path}又配置了/v1/test/test</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div id="tab-8" class="tab-pane">
+                            <div class="panel-body height-400 main-font">
+                                <strong>接口一览</strong>
+                                <p>接口一览是主要配置模块，使用系统可以遵循以下的步骤。ps: 以下文字中，中括号【】为强调，配置时请忽略。</p>
+                                <ol>
+                                    <li>在接口一览中，点击【添加】，新建一个需要模拟的URL，如果有path传参，请一定用【{path}】进行占位。如/v1/{path}/test/{path}
+                                    </li>
+                                    <li>添加一个URL后，请继续添加该URL的返回体，点击URL后方的【返回体】按钮，就可以进入该URL的返回体列表。</li>
+                                    <li>返回体可以指定自定义响应码(Http Code)，但尽量不要乱写，例如写个789，部分浏览器可能对该请求无响应。</li>
+                                    <li>返回体列表中，状态一栏的按钮可以点击，用来切换当前使用返回体。</li>
+                                    <li>按照您配置的请求信息，进行请求，即可看到效果，请求成功后，系统会记录详细日志(【接口日志】模块)，以供排查问题。</li>
+                                    <li>例：配置了url为【/test】接口, 那么请求ip:port/vmock/test 即可请求成功，/vmock为默认自定义请求的根目录，一定要携带。</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div id="tab-9" class="tab-pane">
+                            <div class="panel-body height-400 main-font">
+                                <strong>接口日志</strong>
+                                <p>该模块有两种进入方式</p>
+                                <ol>
+                                    <li>由【接口一览】模块点击URL后方的【日志】</li>
+                                    <li>直接左侧菜单</li>
+                                </ol>
+                                第一种展示的是指定URL的日志，第二种是全部的，并无大区别，从该模块可以看出详细的请求内容和响应内容。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script type="text/javascript">
+    $('#pay-qrcode').click(function () {
+        var html = $(this).html();
+        parent.layer.open({
+            title: false,
+            type: 1,
+            closeBtn: false,
+            shadeClose: true,
+            area: ['600px', 'auto'],
+            content: html
+        });
+    });
+
+
+
+
+
+
+</script>
+</body>
+</html>

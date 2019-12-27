@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>登录</title>
+    <meta name="description" content="v-mock接口模拟系统">
+    <link href="../static/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link href="../static/css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link href="../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="../static/css/login.min.css" th:href="@{/css/login.min.css}" rel="stylesheet"/>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link rel="shortcut icon" href="../static/favicon.ico" th:href="@{favicon.ico}"/>
+    <style type="text/css">
+    label.error {
+        position: inherit;
+    }
+    .mock-logo {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    </style>
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location
+        }
+    </script>
+</head>
+<body class="signin">
+<div class="lowin">
+    <div class="lowin-brand">
+        <img src="../static/vmock.png" th:src="@{/vmock.png}" alt="logo" class="mock-logo">
+    </div>
+    <div class="lowin-wrapper" style="min-height: 441px;">
+        <div class="lowin-box lowin-login">
+            <div class="lowin-box-inner">
+                <form id="signupForm">
+                    <p>V-Mock: 轻量级接口模拟系统</p>
+                    <div class="lowin-group">
+                        <label>账号</label>
+                        <input type="text" autocomplete="off" name="username" value="" class="lowin-input">
+                    </div>
+                    <div class="lowin-group password-group" style="height: 70px;">
+                        <label>密码</label>
+                        <input type="password" name="password" autocomplete="current-password" class="lowin-input">
+                    </div>
+                    <button class="lowin-btn login-btn" id="btnSubmit" data-loading="登录中......">
+                        登录
+                    </button>
+                    <div class="text-foot">
+                        还没有账号? <a class="register-link">注册</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="lowin-box lowin-register lowin-flip">
+            <div class="lowin-box-inner">
+                <form th:action="@{register}" id="regForm" method="post">
+                    <p>让我们开始注册吧！</p>
+                    <div class="lowin-group">
+                        <label>登录账号</label>
+                        <input type="text" name="regUsername" autocomplete="off" class="lowin-input" required minlength="3" maxlength="20">
+                    </div>
+                    <div class="lowin-group">
+                        <label>邀请码</label>
+                        <input type="text" name="invitationCode" autocomplete="off" class="lowin-input" required>
+                    </div>
+                    <div class="lowin-group">
+                        <label>登录密码</label>
+                        <input type="password" name="regPassword" autocomplete="off" class="lowin-input" required minlength="5" maxlength="20">
+                    </div>
+                    <button class="lowin-btn" type="submit">
+                        注册
+                    </button>
+                    <div class="text-foot">
+                        已有账号? <a class="login-link">登录</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="lowin-footer">
+    </footer>
+</div>
+<script th:inline="javascript"> var ctx = [[@{/}]]; </script>
+<!-- 全局js -->
+<script src="../static/js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<!-- 验证插件 -->
+<script src="../static/ajax/libs/validate/jquery.validate.min.js"
+        th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="../static/ajax/libs/validate/messages_zh.min.js"
+        th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="../static/ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="../static/ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script src="../static/sys/js/vmock.js" th:src="@{/sys/js/vmock.js?v=4.1.0}"></script>
+<script src="../static/sys/login.js" th:src="@{/sys/login.js}"></script>
+<script>
+	Auth.init({
+		login_url: '#login',
+		forgot_url: '#forgot'
+	});
+
+</script>
+
+</body>
+</html>
+

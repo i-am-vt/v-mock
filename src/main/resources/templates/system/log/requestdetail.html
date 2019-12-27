@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <th:block th:include="include :: header('请求详细')"/>
+</head>
+<body>
+<div class="col-md-12">
+    <div class="form-group">
+        <label class="col-sm-3 control-label">请求路径：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:text="${mockLog.requestUrl}"></p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">命中系统中URL：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:text="${mockLog.hitUrl}"></p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">请求方法：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:text="${mockLog.requestMethod}"></p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">请求体(body)：</label>
+        <div class="col-sm-9">
+            <p class="form-control-static" th:if="${!#strings.isEmpty(requestDetail.get('body'))}" th:text="${requestDetail.get('body')}"></p>
+            <p class="form-control-static" th:if="${#strings.isEmpty(requestDetail.get('body'))}" th:text="无"></p>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">请求携带参数：</label>
+        <div class="col-sm-9" th:if="${requestDetail.get('params') == null || requestDetail.get('params').size() == 0}">
+            <p class="form-control-static">无</p>
+        </div>
+    </div>
+    <th:block th:if="${requestDetail.get('params') != null || requestDetail.get('params').size() > 0}"
+              th:each="item : ${requestDetail.get('params')}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+                <p class="form-control-static" th:text="${item.key} + ' => ' + ${item.value}"></p>
+            </div>
+        </div>
+    </th:block>
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">请求头：</label>
+        <div class="col-sm-9" th:if="${requestDetail.headers.size()} == 0">
+            <p class="form-control-static">无</p>
+        </div>
+    </div>
+    <th:block th:each="item : ${requestDetail.headers}">
+        <div class="form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+                <p class="form-control-static" th:text="${item.key} + ' => ' + ${item.value}"></p>
+            </div>
+        </div>
+    </th:block>
+</div>
+<th:block th:include="include :: footer"/>
+</body>
+</html>

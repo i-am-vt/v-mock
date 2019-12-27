@@ -1,0 +1,94 @@
+server:
+  # 端口
+  port: 80
+  servlet:
+    # 访问路径
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数
+    max-threads: 400
+    # tomcat初始化的线程数
+    min-spare-threads: 30
+
+# 日志配置
+logging:
+  level:
+    com.vmock: debug
+    org.springframework: warn
+
+# Spring配置
+spring:
+  # 模板引擎
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    # 禁用缓存
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles:
+    active: druid
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: org.sqlite.JDBC
+    druid:
+      # 数据源
+      url: jdbc:sqlite::resource:db/v-mock.sqlite
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      webStatFilter:
+        enabled: false
+      statViewServlet:
+        enabled: false
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+# MyBatis plus
+mybatis-plus:
+  # package name range
+  typeAliasesPackage: com.vmock.biz.entity
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mybatis/*Mapper.xml
+  # 全局配置
+  Configuration:
+    # 全局映射器启用缓存
+    cacheEnabled: true
+    # 允许 JDBC 支持自动生成主键
+    useGeneratedKeys: false
+    # 默认的执行器
+    defaultExecutorType: REUSE
+    logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    # banner print -> off
+    banner: false
+    # logic delete config
+    db-config:
+      # already delete value -> 1
+      logic-delete-value: 1
+      # not delete value -> 0
+      logic-not-delete-value: 0

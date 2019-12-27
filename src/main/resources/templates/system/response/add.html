@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('新增返回体')"/>
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-response-add">
+        <input name="urlId" type="hidden">
+        <input name="customHeader" type="hidden">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">简述：</label>
+            <div class="col-sm-8">
+                <input name="description" class="form-control" type="text" placeholder="例：xxx场景返回的json" maxlength="50" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">响应HTTP码：</label>
+            <div class="col-sm-8">
+                <input name="statusCode" class="form-control" type="number" placeholder="例：200" required max="999">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">请求方式：</label>
+            <div class="col-sm-8">
+                <select name="method" class="form-control m-b" th:with="type=${@dict.getType('http_method')}">
+                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                            th:value="${dict.dictValue}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">自定义响应头：</label>
+            <div class="col-sm-8">
+                <button class="btn btn-success btn-circle" type="button" title="增加一个响应头" onclick="CustomHeader.add()"><i
+                        class="fa fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div id="headerArea">
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">返回体：</label>
+            <div class="col-sm-8">
+                <textarea name="content" class="form-control" required style="margin-bottom: 5px;" rows="12"
+                          placeholder='例：&#13;&#10;{&#13;&#10;  "id" : "123456",&#13;&#10;  "name" : "v-mock"&#13;&#10;}'></textarea>
+                <span style="color: red;font-weight: 700;">返回体通常为JSON或XML格式，请确保格式正确。</span>
+            </div>
+        </div>
+    </form>
+</div>
+<th:block th:include="include :: footer"/>
+<script type="text/javascript">
+
+
+    // SET URL ID
+    var urlSelector = '[name="urlId"]';
+    document.querySelector(urlSelector).value = parent.document.querySelector(urlSelector).value;
+    var prefix = ctx + "system/response"
+    $("#form-response-add").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        CustomHeader.format();
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/add", $('#form-response-add').serialize());
+        }
+    }
+</script>
+</body>
+</html>

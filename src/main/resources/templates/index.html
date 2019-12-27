@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <title>V-Mock轻量级接口模拟</title>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+    <link th:href="@{favicon.ico}" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/jquery.contextMenu.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/skins.css}" rel="stylesheet"/>
+    <link th:href="@{/sys/css/vmock.css?v=4.1.0}" rel="stylesheet"/>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg theme-light skin-blue" style="overflow: hidden">
+<div id="wrapper">
+
+    <!--left menu-->
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="nav-close">
+            <i class="fa fa-times-circle"></i>
+        </div>
+        <div class="sidebar-collapse">
+            <ul class="nav" id="side-menu">
+                <a th:href="@{/index}">
+                    <li class="logo">
+                        <span class="logo-lg">V-Mock</span>
+                    </li>
+                </a>
+                <li th:each="menu : ${menus}">
+                    <a th:class="@{${menu.url != '' && menu.url != '#'} ? ${menu.target}}"
+                       th:href="@{${menu.url == ''} ? |#| : ${menu.url}}">
+                        <i class="fa fa-bar-chart-o" th:class="${menu.icon}"></i>
+                        <span class="nav-label" th:text="${menu.menuName}">一级菜单</span>
+                        <span th:class="${menu.url == '' || menu.url == '#'} ? |fa arrow|"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse">
+                        <li th:each="cmenu : ${menu.children}">
+                            <a th:if="${#lists.isEmpty(cmenu.children)}"
+                               th:class="${cmenu.target == ''} ? |menuItem| : ${cmenu.target}"
+                               th:utext="${cmenu.menuName}" th:href="@{${cmenu.url}}">二级菜单</a>
+                            <a th:if="${not #lists.isEmpty(cmenu.children)}" href="#">[[${cmenu.menuName}]]<span
+                                    class="fa arrow"></span></a>
+                            <ul th:if="${not #lists.isEmpty(cmenu.children)}" class="nav nav-third-level">
+                                <li th:each="emenu : ${cmenu.children}"><a
+                                        th:class="${emenu.target == ''} ? |menuItem| : ${emenu.target}"
+                                        th:text="${emenu.menuName}" th:href="@{${emenu.url}}">三级菜单</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--left menu-->
+    <!--tool bar-->
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class="row border-bottom">
+            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <ul class="nav navbar-top-links navbar-right welcome-message">
+                    <li><a title="注销" th:href="@{logout}"><i class="fa fa-sign-out"></i>注销</a></li>
+                    <li class="dropdown user-menu">
+                        <a th:href="@{/system/user/profile}" class="menuItem dropdown-toggle">
+                            <img id="userIcon" class="user-image">
+                            <span class="hidden-xs" id="unArea">[[${user.userName}]]</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="row content-tabs">
+            <button class="roll-nav roll-left tabLeft">
+                <i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active menuTab" data-id="/system/main">首页</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right tabRight">
+                <i class="fa fa-forward"></i>
+            </button>
+            <a href="javascript:void(0);" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i> 刷新</a>
+        </div>
+
+        <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
+
+        <div class="row mainContent" id="content-main">
+            <iframe class="mockFrame" name="iframe0" width="100%" height="100%" data-id="/system/main"
+                    th:src="@{/system/main}" frameborder="0" seamless></iframe>
+        </div>
+        <div class="footer">
+            <div class="pull-right">Enjoy V-Mock🎉</div>
+        </div>
+    </div>
+    <!--tool bar-->
+</div>
+<!-- common -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/plugins/metisMenu/jquery.metisMenu.js}"></script>
+<script th:src="@{/js/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/js/jquery.contextMenu.min.js}"></script>
+<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script th:src="@{/sys/js/vmock.js?v=4.1.0}"></script>
+<script th:src="@{/sys/js/common.js?v=4.1.0}"></script>
+<script th:src="@{/sys/index.js}"></script>
+<script th:src="@{/ajax/libs/fullscreen/jquery.fullscreen.js}"></script>
+<script th:inline="javascript">
+    var ctx = [[@{/}]];
+    // with left menu
+    var excludesUrl = ["/system/user/profile"];
+    $(function () {
+        var hash = location.hash;
+        if (hash !== '') {
+            var url = hash.substring(1, hash.length);
+            $('a[href$="' + decodeURI(url) + '"]').click();
+            if ($.inArray(url, excludesUrl)) {
+                $('a[href$="' + url + '"]').parent("li").addClass("selected").parents("li").addClass("active").end().parents("ul").addClass("in");
+            }
+        }
+        $("#userIcon").attr("src", textToImage($("#unArea").html()));
+    });
+
+    function textToImage(name){
+		var nick = "U";
+    	if(name){
+    		nick = name.charAt(0);
+    	}
+    	var fontSize = 15;
+        var fontWeight = 'normal';
+    	var canvas = document.getElementById('canvas');
+    	if(canvas){
+    		canvas.remove();
+    	}else{
+    		var html = "<canvas id='canvas' style='display:none'></canvas>";
+    		$("body").append(html);
+    		canvas = document.getElementById('canvas');
+    	}
+    	canvas.width = 28;
+        canvas.height = 28;
+        var context = canvas.getContext('2d');
+		//background color
+        context.fillStyle = '#2D89EF';
+        context.fillRect(0, 0, canvas.width, canvas.height);
+		//font color
+        context.fillStyle = '#FFFFFF';
+        context.font = fontWeight + ' ' + fontSize + 'px sans-serif';
+        context.textAlign = 'center';
+        context.textBaseline="middle";
+        context.fillText(nick, fontSize, fontSize);
+        return canvas.toDataURL("image/png");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('路径详情')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-url-edit" th:object="${mockUrl}">
+            <input name="urlId" th:field="*{urlId}" type="hidden">
+            <div class="form-group">
+                <label class="col-sm-3 control-label">URL路径：</label>
+                <div class="col-sm-8">
+                    <input name="url" class="form-control" required style="margin-bottom: 5px;"
+                           placeholder="例：/v1/{path}/category/{path}/product" th:field="*{url}"/>
+                    <span style="color: red;font-weight: 700;">※ URL路径以/开始，如果有Path传参情况，请用占位符{path}占位</font></span>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="name" th:field="*{name}" class="form-control" type="text" maxlength="150" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">描述：</label>
+                <div class="col-sm-8">
+                    <textarea name="description" class="form-control" type="text" maxlength="255">[[*{description}]]</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "system/url";
+        $("#form-url-edit").validate({
+            focusCleanup: true
+        });
+
+        // readonly
+        $('input, textarea').attr("readonly", "readonly");
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-url-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

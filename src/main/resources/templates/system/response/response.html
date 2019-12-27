@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('返回体列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div class="select-list">
+                    <ul>
+                        <!-- url id-->
+                        <input type="hidden" name="urlId" th:value="${urlId}"/>
+                        <li>
+                            <p style="width: 90px;">使用中/全部：</p>
+                            <input type="checkbox" name="main" value="1" title="勾选只看使用中，否则显示全部"/>
+                        </li>
+                        <li>
+                            请求方式：<select name="method" th:with="type=${@dict.getType('http_method')}">
+                            <option value="">所有</option>
+                            <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                    th:value="${dict.dictValue}"></option>
+                        </select>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+        <div class="btn-group-sm" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.add()">
+                <i class="fa fa-plus"></i> 添加
+            </a>
+            <a class="btn btn-primary single disabled" onclick="$.operate.edit()">
+                <i class="fa fa-edit"></i> 修改
+            </a>
+            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()">
+                <i class="fa fa-remove"></i> 删除
+            </a>
+            <a class="btn btn-warning" onclick="$.table.exportExcel()">
+                <i class="fa fa-download"></i> 导出
+            </a>
+        </div>
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+
+
+        var prefix = ctx + "system/response";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                uniqueId: "responseId",
+                detailUrl: prefix + "/{id}",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix,
+                exportUrl: prefix + "/export",
+                modalName: "返回体",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field : 'responseId', 
+                    title : '主键',
+                    visible: false
+                },
+                {
+                    field : 'main',
+                    title : '状态',
+                    width : '10%',
+                    formatter: function(value, row, index) {
+                        if(row.main === 1){
+                            return `<button type="button" class="btn btn-w-m btn-xs btn-danger" onclick="responseOff('${row.responseId}')">使用中</button>`;
+                        }
+                        return `<button type="button" class="btn btn-xs btn-w-m btn-default" onclick="responseOn('${row.responseId}')">未启用</button>`;
+                    }
+                },
+                {
+                    field : 'description',
+                    title : '简述'
+                },
+                {
+                    field : 'statusCode',
+                    title : 'HTTP状态码'
+                },
+                {
+                    field : 'method',
+                    title : '请求方式'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push(`<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="$.operate.detail('${row.responseId}')"><i class="fa fa-tasks"></i>详情</a> `);
+                        actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.responseId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.responseId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function responseOn(id){
+             $.modal.confirm("确定启用该返回体？", function () {
+                 $.operate.put(`${prefix}/${id}/main`, {"main" : 1});
+             });
+        }
+
+        function responseOff(id){
+             $.modal.confirm("确定停止使用该返回体？", function () {
+                 $.operate.put(`${prefix}/${id}/main`, {"main" : 0});
+             });
+        }
+
+</script>
+</body>
+</html>
