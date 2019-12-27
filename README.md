@@ -25,15 +25,15 @@ ps： 暂时不支持根据请求参数的逻辑切换返回格式，仅可以�
 
 ### 如何安装
 
-如果只是使用，我们只需要JRE即可，无需任何其他软件。 
-
-默认80端口 可以追加 --server.port=xxx 自己指定 
-
+如果只是使用，我们只需要JRE即可，无需任何其他软件。  
+到[Releases](https://github.com/i-am-vt/v-mock/releases) 页面，下载最新版本的jar包  
+ 
 
 ```
 java -jar v-mock.jar
 ```
 即可使用  
+默认80端口 可以追加 --server.port=xxx 自己指定  
 ## 如何使用
 
 安装完成后，根据自己的ip以及指定的端口，访问V-Mock后台界面。
