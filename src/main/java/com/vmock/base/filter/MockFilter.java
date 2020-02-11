@@ -54,7 +54,27 @@ public class MockFilter implements Filter {
         // 转换类型
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        setCorsHeader(httpServletRequest, httpServletResponse);
         // 执行主要逻辑处理
         mockFilterHandler.execute(httpServletRequest, httpServletResponse);
+    }
+
+    /**
+     * 设置filter跨域header
+     *
+     * @param request  请求
+     * @param response 响应
+     */
+    private static void setCorsHeader(HttpServletRequest request, HttpServletResponse response) {
+        // 域
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        // credentials
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        // method
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        // age
+        response.setHeader("Access-Control-Max-Age", "3600");
+        // header
+        response.setHeader("Access-Control-Allow-Headers", "*");
     }
 }
