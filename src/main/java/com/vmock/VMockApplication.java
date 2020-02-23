@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import static com.vmock.base.utils.DataMigrationUtils.dataMigrationCheck;
+
 /**
  * 启动程序
  *
@@ -15,7 +17,11 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class VMockApplication {
 
+
     public static void main(String[] args) {
+        // 是否需要数据迁移检测
+        dataMigrationCheck();
+        // 启动主程序
         SpringApplication.run(VMockApplication.class, args);
     }
 
