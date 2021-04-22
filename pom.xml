@@ -24,7 +24,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <pagehelper.version>5.1.4</pagehelper.version>
-        <shiro.version>1.5.0</shiro.version>
+        <shiro.version>1.7.1</shiro.version>
         <druid.version>1.1.14</druid.version>
         <lombok.version>1.18.10</lombok.version>
         <poi.version>3.17</poi.version>
