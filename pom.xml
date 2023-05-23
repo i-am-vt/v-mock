@@ -29,7 +29,7 @@
         <lombok.version>1.18.10</lombok.version>
         <poi.version>3.17</poi.version>
         <mybatis.plus.version>3.2.0</mybatis.plus.version>
-        <sqlite.jdbc.version>3.25.2</sqlite.jdbc.version>
+        <sqlite.jdbc.version>3.41.2.2</sqlite.jdbc.version>
         <hutool.version>5.0.6</hutool.version>
     </properties>
 
